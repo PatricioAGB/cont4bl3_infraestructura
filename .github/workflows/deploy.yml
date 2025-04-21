@@ -10,7 +10,7 @@
 
   jobs:
     build:
-      runs-on: [self]
+      runs-on: [self-hosted]
 
       steps:
         - name: Clonar el repositorio
