@@ -16,8 +16,7 @@ services:
       - cont4bl3
 
   auth-service:
-    build:
-      context: ${AUTH_PATH}
+    image: patricioagb/auth-service-cont4bl3:latest
     container_name: auth-service
     ports:
       - "3000:3000"
@@ -29,13 +28,11 @@ services:
       - DB_USERNAME=${SQL_USER}
       - DB_PASSWORD=${SQL_PASS}
       - DB_NAME=auth_db
-    entrypoint: ["sh", "-c", "sleep 20 && npm run start:prod"]
     networks:
       - cont4bl3
 
   contable-api:
-    build:
-      context: ${API_PATH}
+    image: patricioagb/cont4bl3-backend:latest
     container_name: contable-api
     ports:
       - "8080:8080"
@@ -45,13 +42,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:sqlserver://sqlserver_db:1433;databaseName=contable_db;encrypt=true;trustServerCertificate=true
       - SPRING_DATASOURCE_USERNAME=${SQL_USER}
       - SPRING_DATASOURCE_PASSWORD=${SQL_PASS}
-    entrypoint: ["sh", "-c", "sleep 20 && java -jar app.jar"]
     networks:
       - cont4bl3
 
   excel-service:
-    build:
-      context: ${EXCEL_PATH}
+    image: patricioagb/micro-carga-excel:latest
     container_name: excel-service
     ports:
       - "3001:3001"
@@ -75,6 +70,8 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+
+    
     networks:
       - cont4bl3
 
