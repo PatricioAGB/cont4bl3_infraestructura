@@ -28,9 +28,9 @@ services:
       - DB_USERNAME=sa
       - DB_PASSWORD=Patito531
       - DB_NAME=auth_db
+    restart: unless-stopped
     networks:
       - cont4bl3
-    entrypoint: ["sh","-c","sleep 60 && java -jar app.jar"]
 
   contable-api:
     image: patricioagb/cont4bl3-backend:latest
@@ -43,9 +43,9 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:sqlserver://sqlserver_db:1433;databaseName=contable_db;encrypt=true;trustServerCertificate=true
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=Patito531
+    restart: unless-stopped
     networks:
       - cont4bl3
-    entrypoint: ["sh","-c","sleep 60 && java -jar app.jar"]
 
   excel-service:
     image: patricioagb/micro-carga-excel:latest
@@ -60,9 +60,9 @@ services:
       - DB_USERNAME=sa
       - DB_PASSWORD=Patito531
       - DB_NAME=contable_db
+    restart: unless-stopped
     networks:
       - cont4bl3
-    entrypoint: ["sh","-c","sleep 60 && java -jar app.jar"]
 
   cont4bl3_nginx:
     image: nginx:latest
@@ -73,8 +73,6 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-
-    
     networks:
       - cont4bl3
 
