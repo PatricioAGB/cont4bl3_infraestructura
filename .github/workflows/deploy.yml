@@ -1,26 +1,32 @@
-  name: CI con Docker Compose
+name: CI con Docker Compose
 
-  on:
-    push:
-      branches:
-        - master
-    pull_request:
-      branches:
-        - master
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
-  jobs:
-    build:
-      runs-on: [self-hosted]
+jobs:
+  build:
+    runs-on: [self-hosted]
 
-      steps:
-        - name: Clonar el repositorio
-          uses: actions/checkout@v3
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
 
-        - name: Parar docker compose
-          run: docker compose -f docker-compose.yml down
+      - name: Login en Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-        - name: Eliminar imagenes residuales
-          run: docker image prune -af
+      - name: Parar docker compose
+        run: docker compose -f docker-compose.yml down
 
-        - name: Levantar servicios con Docker Compose
-          run: docker compose -f docker-compose.yml up -d --build
+      - name: Eliminar imágenes residuales
+        run: docker image prune -af
+
+      - name: Descargar imágenes desde Docker Hub
+        run: docker compose -f docker-compose.yml pull
+
+      - name: Levantar servicios con Docker Compose
+        run: docker compose -f docker-compose.yml up -d
