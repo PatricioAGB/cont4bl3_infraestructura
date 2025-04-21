@@ -25,8 +25,8 @@ services:
     environment:
       - DB_HOST=sqlserver_db
       - DB_PORT=1433
-      - DB_USERNAME=${SQL_USER}
-      - DB_PASSWORD=${SQL_PASS}
+      - DB_USERNAME=sa
+      - DB_PASSWORD=Patito531
       - DB_NAME=auth_db
     networks:
       - cont4bl3
