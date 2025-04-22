@@ -58,7 +58,7 @@ services:
       - DB_HOST=sqlserver_db
       - DB_PORT=1433
       - DB_USERNAME=sa
-      - DB_PASSWORD=Patito531
+      - DB_PASSWORD=${SQL_PASS}
       - DB_NAME=contable_db
     restart: unless-stopped
     networks:
